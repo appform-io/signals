@@ -1,5 +1,11 @@
 # Signals
 
+[![Build](https://github.com/appform-io/signals/actions/workflows/sonarcloud-checks.yml/badge.svg?branch=master)](https://github.com/appform-io/signals/actions/workflows/sonarcloud-checks.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=coverage)](https://sonarcloud.io/dashboard?id=appform-io_signals)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=security_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
+
 A loosely coupled observer system implementation inspired by boost::signals/glibmm signals.
 
 ## Why?
