@@ -90,13 +90,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>
-                        <exclude>**/*Google*.*</exclude>
-                        <exclude>**/*Gauth*.*</exclude>
-                        <exclude>**/*OAuth.*</exclude>
-                        <exclude>**/modules/*.*</exclude>
-                        <exclude>**/Handlebars*.*</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
 
