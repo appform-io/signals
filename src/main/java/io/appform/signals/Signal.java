@@ -23,9 +23,9 @@ import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 
 /**
- *
+ * Top level signal abstraction. The actual classes are derived from this class.
  */
-public class Signal<T, R, F extends SignalHandlerBase<T, R>> {
+public abstract class Signal<T, R, F extends SignalHandlerBase<T, R>> {
     private final Map<Integer, HandlerGroup<T, R, F>> handlers;
     private final HandlerExecutor<T, R, F> executor;
     private final ResponseCombiner<R> combiner;
@@ -41,25 +41,56 @@ public class Signal<T, R, F extends SignalHandlerBase<T, R>> {
         this.executor = executor;
     }
 
-    public Signal<T, R, F> connect(final F handle) {
-        return connect(0, handle);
+    /**
+     * Connect a handler of type {@link SignalHandlerBase} to this signal. All handlers connected by this method get
+     * allocated to the first group (0).
+     *
+     * @param handler A signal handler
+     * @return This same signal, for chaining
+     */
+    public final Signal<T, R, F> connect(final F handler) {
+        return connect(0, handler);
     }
 
-    public synchronized Signal<T, R, F> connect(int groupId, final F handle) {
+    /**
+     * Connect a handler to this signal at a specific grouping. Grouping can be used to order between multiple sets of
+     * handlers that can be executed in parallel. Execution of groups is ordered by the group id. Multiple calls with
+     * same grouping id will add the handlers to the same group.
+     *
+     * @param groupId Group id to be assigned to.
+     * @param handler A signal handler
+     * @return This same signal, for chaining
+     */
+    public final synchronized Signal<T, R, F> connect(int groupId, final F handler) {
         handlers.computeIfAbsent(groupId, g -> new HandlerGroup<>(groupId, new ArrayList<>()))
-                .add(handle);
+                .add(handler);
         return this;
     }
 
-    public R dispatch(final T data) {
+    /**
+     * Trigger the signal with the data. Handlers will get called according to how they have been connected and how the
+     * executors are being setup.
+     *
+     * @param data The data to be passed to the signal handler
+     * @return Response from calling the handlers after they pass through the combiner
+     */
+    public final R dispatch(final T data) {
         handlers.values()
                 .stream()
                 .map(group -> executor.execute(group.getHandlers(), data, combiner, errorHandlingStrategy))
-                .forEach(combiner::assimilate);
+                .forEach(combiner::assimilateGroupResult);
         return combiner.result();
     }
 
-    protected abstract static  class BuilderBase<
+    /**
+     * Base class for providing a builder for configuring subtypes of the Signal class.
+     * @param <T> Type of parameter to handler
+     * @param <R> Return type from handler
+     * @param <F> Type fo signal handler
+     * @param <C> Combiner used to combine the results
+     * @param <S> Subtype for the signal class
+     */
+    protected abstract static class BuilderBase<
             T,
             R,
             F extends SignalHandlerBase<T, R>,
@@ -73,10 +104,11 @@ public class Signal<T, R, F extends SignalHandlerBase<T, R>> {
     }
 
     /**
-     *
+     * A group of handlers. All handlers in a group are considered to be equivalent and might be executed in parallel
+     * depending on the executor implementation provided.
      */
     @Value
-    public static class HandlerGroup<T, R, F extends SignalHandlerBase<T,R>> {
+    public static class HandlerGroup<T, R, F extends SignalHandlerBase<T, R>> {
         int id;
         List<F> handlers;
 

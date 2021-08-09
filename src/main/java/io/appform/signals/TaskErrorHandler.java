@@ -15,8 +15,13 @@
 package io.appform.signals;
 
 /**
- *
+ * Abstraction for an error handler. This is ues to handle errors leaking out of signal handlers.
  */
 public interface TaskErrorHandler {
+
+    /**
+     * Handle an exception thrown by signal handler
+     * @param e Exception thrown by the handler
+     */
     void handle(Exception e);
 }

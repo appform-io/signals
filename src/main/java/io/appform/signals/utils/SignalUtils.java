@@ -32,7 +32,7 @@ public class SignalUtils {
             TaskErrorHandler errorHandlingStrategy) {
         try {
             val response = handler.handle(data);
-            combiner.assimilate(response);
+            combiner.assimilateHandlerResult(response);
             return response;
         }
         catch (Exception e) {

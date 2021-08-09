@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * A {@link HandlerExecutor} that does not respond back.
- * However, all responses are provided to {@link io.appform.signals.ResponseCombiner#assimilate(Object)}
+ * However, all responses are provided to {@link io.appform.signals.ResponseCombiner#assimilateHandlerResult(Object)}
  */
 public class FireForgetHandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> implements HandlerExecutor<T, R, F> {
 

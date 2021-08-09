@@ -31,7 +31,7 @@ public class LastValueResponseCombiner<R> implements ResponseCombiner<R> {
     }
 
     @Override
-    public void assimilate(R data) {
+    public void assimilateHandlerResult(R data) {
         this.current = data;
     }
 

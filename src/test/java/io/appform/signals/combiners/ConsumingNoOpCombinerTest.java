@@ -27,7 +27,7 @@ class ConsumingNoOpCombinerTest {
     @Test
     void testCombiner() {
         val c = new ConsumingNoOpCombiner();
-        c.assimilate(null);
+        c.assimilateHandlerResult(null);
         assertNull(c.result());
     }
 

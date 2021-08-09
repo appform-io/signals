@@ -15,7 +15,8 @@
 package io.appform.signals;
 
 /**
- *
+ * Base class representing all types of signal handlers. Check subtypes for more information.
+ * This is not meant to be used directly.
  */
 public interface SignalHandlerBase<T, R> {
     R handle(T data);

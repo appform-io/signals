@@ -31,7 +31,7 @@ import java.util.concurrent.*;
 /**
  * A Consuming {@link Signal} that fires handlers in parallel and does not wait for their response.
  * Consuming signals accept a {@link SignalConsumer} as handler and do not respond back with any responses.
- * All {@link io.appform.signals.ResponseCombiner#assimilate(Object)} invocations will receive null.
+ * All {@link io.appform.signals.ResponseCombiner#assimilateHandlerResult(Object)} invocations will receive null.
  * Any errors are handled by the provided {@link TaskErrorHandler}.
  * Defaults:
  *  - Executor Service - Single thread executor

@@ -15,10 +15,28 @@
 package io.appform.signals;
 
 /**
- *
+ * Combines results from signal handlers and groups
  */
 public interface ResponseCombiner<R> {
-    void assimilate(R data);
+    /**
+     * Assimilate result from a call to {@link SignalHandlerBase#handle(Object)}.
+     * @param data The result from handler call
+     */
+    void assimilateHandlerResult(R data);
+
+    /**
+     * Signal handlers can be registered in groups. This function is used to assimilate results from the processing
+     * of a group.
+     * @param data The result from execution of a group oh handlers
+     */
+    default void assimilateGroupResult(R data) {
+        //Do nothing here
+    }
+
+    /**
+     * Result of the computation. When using Generating Signal, this is the value that gets returned.
+     * @return The result of computation implemented in the combiner
+     */
     R result();
 
 }

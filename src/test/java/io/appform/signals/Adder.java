@@ -24,7 +24,7 @@ public class Adder implements ResponseCombiner<Integer> {
     private final AtomicInteger sum = new AtomicInteger();
 
     @Override
-    public void assimilate(Integer data) {
+    public void assimilateHandlerResult(Integer data) {
         sum.addAndGet(data);
     }
 

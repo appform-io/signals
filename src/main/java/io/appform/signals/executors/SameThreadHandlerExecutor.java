@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * An executor that executes handlers in the caller thread
- * and calls {@link ResponseCombiner#assimilate(Object)} on every response from handler.
+ * and calls {@link ResponseCombiner#assimilateHandlerResult(Object)} on every response from handler.
  * Null responses are ignored.
  */
 public class SameThreadHandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> implements HandlerExecutor<T, R, F> {

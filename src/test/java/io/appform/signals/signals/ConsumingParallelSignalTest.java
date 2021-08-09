@@ -14,7 +14,7 @@
 
 package io.appform.signals.signals;
 
-import io.appform.signals.combiners.ConsumingCombiner;
+import io.appform.signals.CountingConsumer;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -52,16 +52,13 @@ class ConsumingParallelSignalTest {
 
     @Test
     void testBuilderConsumer() {
-        val count = new AtomicInteger();
+        val combiner = new CountingConsumer();
         val s = ConsumingParallelSignal.<Integer>builder()
-                .combiner(new ConsumingCombiner() {
-                    @Override
-                    public void assimilate(Void data) {
-                        count.incrementAndGet();
-                    }
-                }).build();
+                .combiner(combiner)
+                .build();
         testSum(s);
-        assertEquals(220, count.get());
+        assertEquals(200, combiner.getHandlerCount().get());
+        assertEquals(20, combiner.getGroupCount().get());
     }
 
     @Test

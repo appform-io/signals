@@ -12,15 +12,32 @@
  * under the License.
  */
 
-package io.appform.signals.combiners;
+package io.appform.signals;
+
+import io.appform.signals.combiners.ConsumingCombiner;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A {@link ConsumingCombiner} that does nothing for each result. This is the default combiner for Consuming Signals.
+ *
  */
-public class ConsumingNoOpCombiner extends ConsumingCombiner {
+@Value
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class CountingConsumer extends ConsumingCombiner {
+    AtomicInteger handlerCount = new AtomicInteger();
+    AtomicInteger groupCount = new AtomicInteger();
+
     @Override
     public void assimilateHandlerResult(Void data) {
-        //Nothing to do here
+        handlerCount.incrementAndGet();
     }
 
+    @Override
+    public void assimilateGroupResult(Void data) {
+        groupCount.incrementAndGet();
+    }
 }

@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 /**
  * A Generating {@link Signal} that fires handlers in parallel and waits for them to complete.
  * Generating signals accept a {@link SignalHandler} as handler and every handler invocation is expected to produce a response.
- * Responses from the handlers are sent to {@link io.appform.signals.ResponseCombiner#assimilate(Object)}.
+ * Responses from the handlers are sent to {@link io.appform.signals.ResponseCombiner#assimilateHandlerResult(Object)}.
  * Every {@link io.appform.signals.Signal.HandlerGroup} response is also sent to combiner.
  * Any errors are handled by the provided {@link TaskErrorHandler}.
  * Defaults:

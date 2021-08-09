@@ -17,7 +17,7 @@ package io.appform.signals;
 import java.util.List;
 
 /**
- *
+ * An abstraction for all executors for signal handlers
  */
 public interface HandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> {
     R execute(

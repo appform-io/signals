@@ -31,11 +31,16 @@ class ConsumingCombinerTest {
         val c = new ConsumingCombiner() {
 
             @Override
-            public void assimilate(Void data) {
+            public void assimilateHandlerResult(Void data) {
+                sum[0]++;
+            }
+
+            @Override
+            public void assimilateGroupResult(Void data) {
                 sum[0]++;
             }
         };
-        loop(10).forEach(i -> c.assimilate(null));
+        loop(10).forEach(i -> c.assimilateHandlerResult(null));
         assertEquals(10, sum[0]);
     }
 

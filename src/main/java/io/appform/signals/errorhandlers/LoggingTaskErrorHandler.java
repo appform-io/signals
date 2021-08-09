@@ -23,6 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingTaskErrorHandler implements TaskErrorHandler {
 
+    /**
+     * Log and suppress the exception thrown
+     * @param e Exception thrown by the handler
+     */
     @Override
     public void handle(Exception e) {
         log.error("Task error: ", e);

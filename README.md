@@ -35,7 +35,7 @@ Add the following dependency to `pom.xml`:
 <dependency>
     <groupId>io.appform.signals</groupId>
     <artifactId>signals</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 </dependency>
 ```
 

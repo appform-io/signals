@@ -28,7 +28,7 @@ class LastValueResponseCombinerTest {
     @Test
     void testConsumption() {
         val c = new LastValueResponseCombiner<Integer>();
-        loop(10).forEach(c::assimilate);
+        loop(10).forEach(c::assimilateHandlerResult);
         assertEquals(10, c.result());
     }
 

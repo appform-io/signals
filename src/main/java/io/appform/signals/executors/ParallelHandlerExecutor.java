@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 /**
  * An executor that executes handlers in parallel
- * and calls {@link ResponseCombiner#assimilate(Object)} on every response from handler.
+ * and calls {@link ResponseCombiner#assimilateHandlerResult(Object)} on every response from handler.
  * Null responses are ignored.
  */
 @Slf4j
