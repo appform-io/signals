@@ -24,7 +24,7 @@ import io.appform.signals.signalhandlers.SignalHandler;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
+import static io.appform.signals.utils.SignalUtils.requireNonNullElse;
 
 /**
  * A Generating {@link Signal} that fires handlers in the calling thread and waits for them to complete.
@@ -66,8 +66,8 @@ public class GeneratingSyncSignal<T, R> extends Signal<T, R, SignalHandler<T, R>
         public GeneratingSyncSignal<T, R> build() {
 
             return new GeneratingSyncSignal<>(
-                    Objects.requireNonNullElse(combiner, new LastValueResponseCombiner<>()),
-                    Objects.requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
+                    requireNonNullElse(combiner, new LastValueResponseCombiner<>()),
+                    requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
         }
     }
 

@@ -25,9 +25,10 @@ import io.appform.signals.signalhandlers.SignalHandler;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static io.appform.signals.utils.SignalUtils.requireNonNullElse;
 
 /**
  * A Generating {@link Signal} that fires handlers in parallel and waits for them to complete.
@@ -75,9 +76,9 @@ public class GeneratingParallelSignal<T, R> extends Signal<T, R, SignalHandler<T
         @Override
         public GeneratingParallelSignal<T, R> build() {
             return new GeneratingParallelSignal<>(
-                    Objects.requireNonNullElse(executorService, Executors.newCachedThreadPool()),
-                    Objects.requireNonNullElse(combiner, new LastValueResponseCombiner<>()),
-                    Objects.requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
+                    requireNonNullElse(executorService, Executors.newCachedThreadPool()),
+                    requireNonNullElse(combiner, new LastValueResponseCombiner<>()),
+                    requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
         }
     }
 

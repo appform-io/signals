@@ -40,4 +40,8 @@ public class SignalUtils {
         }
         return null;
     }
+
+    public static <T> T requireNonNullElse(T original, T defaultValue) {
+        return null == original ? defaultValue : original;
+    }
 }

@@ -27,7 +27,7 @@ class GroupingTest {
     @Test
     void testSignal() {
         val s = GeneratingSyncSignal.<String, String>builder()
-                .combiner(new ResponseCombiner<>() {
+                .combiner(new ResponseCombiner<String>() {
                     String value = "";
 
                     @Override

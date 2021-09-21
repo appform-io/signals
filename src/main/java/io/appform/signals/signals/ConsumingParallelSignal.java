@@ -15,18 +15,19 @@
 package io.appform.signals.signals;
 
 import io.appform.signals.Signal;
-import io.appform.signals.combiners.ConsumingCombiner;
-import io.appform.signals.signalhandlers.SignalConsumer;
 import io.appform.signals.TaskErrorHandler;
+import io.appform.signals.combiners.ConsumingCombiner;
 import io.appform.signals.combiners.ConsumingNoOpCombiner;
 import io.appform.signals.errorhandlers.LoggingTaskErrorHandler;
 import io.appform.signals.executors.ParallelHandlerExecutor;
+import io.appform.signals.signalhandlers.SignalConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static io.appform.signals.utils.SignalUtils.requireNonNullElse;
 
 /**
  * A Consuming {@link Signal} that fires handlers in parallel and waits for them to complete.
@@ -72,9 +73,9 @@ public class ConsumingParallelSignal<T> extends Signal<T, Void, SignalConsumer<T
         @Override
         public ConsumingParallelSignal<T> build() {
             return new ConsumingParallelSignal<>(
-                    Objects.requireNonNullElse(executorService, Executors.newCachedThreadPool()),
-                    Objects.requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
-                    Objects.requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
+                    requireNonNullElse(executorService, Executors.newCachedThreadPool()),
+                    requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
+                    requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
         }
     }
 

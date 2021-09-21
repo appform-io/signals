@@ -24,7 +24,7 @@ import io.appform.signals.signalhandlers.SignalConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
+import static io.appform.signals.utils.SignalUtils.requireNonNullElse;
 
 /**
  * A Consuming {@link Signal} that fires handlers in the same thread waits for them to complete.
@@ -61,8 +61,8 @@ public class ConsumingSyncSignal<T> extends Signal<T, Void, SignalConsumer<T>> {
         @Override
         public ConsumingSyncSignal<T> build() {
             return new ConsumingSyncSignal<>(
-                    Objects.requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
-                    Objects.requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
+                    requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
+                    requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
         }
     }
 

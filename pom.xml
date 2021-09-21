@@ -20,7 +20,7 @@
 
     <groupId>io.appform.signals</groupId>
     <artifactId>signals</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>Signals</name>
     <url>https://github.com/appform-io/signals</url>
     <description>A loosely coupled observer system implementation.</description>
@@ -78,8 +78,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <sonar.projectKey>appform-io_signals</sonar.projectKey>
         <sonar.organization>appform-io</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -122,8 +122,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>

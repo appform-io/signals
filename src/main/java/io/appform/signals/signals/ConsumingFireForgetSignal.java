@@ -15,18 +15,20 @@
 package io.appform.signals.signals;
 
 import io.appform.signals.Signal;
-import io.appform.signals.combiners.ConsumingCombiner;
-import io.appform.signals.signalhandlers.SignalConsumer;
 import io.appform.signals.TaskErrorHandler;
+import io.appform.signals.combiners.ConsumingCombiner;
 import io.appform.signals.combiners.ConsumingNoOpCombiner;
 import io.appform.signals.errorhandlers.LoggingTaskErrorHandler;
 import io.appform.signals.executors.FireForgetHandlerExecutor;
+import io.appform.signals.signalhandlers.SignalConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Objects;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static io.appform.signals.utils.SignalUtils.requireNonNullElse;
 
 /**
  * A Consuming {@link Signal} that fires handlers in parallel and does not wait for their response.
@@ -74,9 +76,9 @@ public class ConsumingFireForgetSignal<T> extends Signal<T, Void, SignalConsumer
         @Override
         public ConsumingFireForgetSignal<T> build() {
             return new ConsumingFireForgetSignal<>(
-                    Objects.requireNonNullElse(executorService, Executors.newCachedThreadPool()),
-                    Objects.requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
-                    Objects.requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
+                    requireNonNullElse(executorService, Executors.newCachedThreadPool()),
+                    requireNonNullElse(combiner, new ConsumingNoOpCombiner()),
+                    requireNonNullElse(errorHandler, new LoggingTaskErrorHandler()));
         }
     }
 

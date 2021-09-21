@@ -51,7 +51,7 @@ public class ParallelHandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> im
         val c = new ExecutorCompletionService<R>(executorService);
         val futures = handlers.stream()
                 .map(handler -> c.submit(() -> (R) SignalUtils.execute(handler, data, combiner, errorHandlingStrategy)))
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
         //Please do not combine the two by removing the collection, it will serialise the operations
         futures.forEach(f -> result(errorHandlingStrategy, f));
         return combiner.result();
