@@ -117,6 +117,7 @@ class ScheduledSignalTest {
                 .timeout(15, TimeUnit.SECONDS)
                 .until(() -> ctr.get() > 5);
         val delay = new Date().getTime() - startTime.getTime();
+        System.out.println(delay);
         assertTrue(delay > 8_500 && delay < 15_000); //Takes more time
         s.close();
     }
