@@ -114,7 +114,7 @@ class ScheduledSignalTest {
             }
         });
         Awaitility.await()
-                .timeout(10, TimeUnit.SECONDS)
+                .timeout(15, TimeUnit.SECONDS)
                 .until(() -> ctr.get() > 5);
         val delay = new Date().getTime() - startTime.getTime();
         assertTrue(delay > 8_500 && delay < 10_000); //Takes more time
