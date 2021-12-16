@@ -14,13 +14,10 @@
 
 package io.appform.signals.executors;
 
-import io.appform.signals.HandlerExecutor;
-import io.appform.signals.ResponseCombiner;
-import io.appform.signals.SignalHandlerBase;
-import io.appform.signals.TaskErrorHandler;
+import io.appform.signals.*;
 import io.appform.signals.utils.SignalUtils;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -38,7 +35,7 @@ public class FireForgetHandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> 
 
     @Override
     public R execute(
-            List<F> handlers,
+            Collection<Signal.NamedHandler<F>> handlers,
             T data,
             ResponseCombiner<R> combiner,
             TaskErrorHandler errorHandlingStrategy) {

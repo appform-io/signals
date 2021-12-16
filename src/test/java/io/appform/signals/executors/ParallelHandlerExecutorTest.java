@@ -14,6 +14,7 @@
 
 package io.appform.signals.executors;
 
+import io.appform.signals.Signal;
 import io.appform.signals.combiners.ConsumingNoOpCombiner;
 import io.appform.signals.errorhandlers.LoggingTaskErrorHandler;
 import io.appform.signals.signalhandlers.SignalConsumer;
@@ -39,7 +40,7 @@ class ParallelHandlerExecutorTest {
         val sum = new AtomicInteger();
         loop(10)
                 .forEach(i -> e.execute(
-                        Collections.singletonList(sum::addAndGet),
+                        Collections.singletonList(new Signal.NamedHandler<>("test", sum::addAndGet)),
                         i,
                         new ConsumingNoOpCombiner(),
                         new LoggingTaskErrorHandler()));
@@ -52,11 +53,11 @@ class ParallelHandlerExecutorTest {
         val errorCount = new AtomicInteger();
         loop(10)
                 .forEach(i -> e.execute(
-                        Collections.singletonList(data -> {
+                        Collections.singletonList(new Signal.NamedHandler<>("test", data -> {
                             if (data % 2 == 0) {
                                 throw new RuntimeException();
                             }
-                        }),
+                        })),
                         i,
                         new ConsumingNoOpCombiner(),
                         ex -> {

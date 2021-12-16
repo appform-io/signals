@@ -15,6 +15,7 @@
 package io.appform.signals.utils;
 
 import io.appform.signals.ResponseCombiner;
+import io.appform.signals.Signal;
 import io.appform.signals.SignalHandlerBase;
 import io.appform.signals.TaskErrorHandler;
 import lombok.experimental.UtilityClass;
@@ -26,12 +27,12 @@ import lombok.val;
 @UtilityClass
 public class SignalUtils {
     public static <T, R, F extends SignalHandlerBase<T, R>> R execute(
-            final F handler,
+            final Signal.NamedHandler<F> handler,
             T data,
             ResponseCombiner<R> combiner,
             TaskErrorHandler errorHandlingStrategy) {
         try {
-            val response = handler.handle(data);
+            val response = handler.getHandler().handle(data);
             combiner.assimilateHandlerResult(response);
             return response;
         }
@@ -43,5 +44,9 @@ public class SignalUtils {
 
     public static <T> T requireNonNullElse(T original, T defaultValue) {
         return null == original ? defaultValue : original;
+    }
+
+    public static boolean isEmpty(final String value) {
+        return null == value || value.equals("");
     }
 }

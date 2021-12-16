@@ -18,9 +18,12 @@ import io.appform.signals.CountingConsumer;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static io.appform.signals.TestingUtils.loop;
 import static io.appform.signals.TestingUtils.printTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  *
@@ -64,6 +67,38 @@ class ConsumingSyncSignalTest {
         assertEquals(100, errorCounter[0]); // Five times per dispatch
     }
 
+    @Test
+    void testNamedHandlers() {
+        val s = new ConsumingSyncSignal<Void>();
+        val ctr = new AtomicInteger();
+
+        val handlerName = "testHandler";
+        s.connect(handlerName, v -> ctr.incrementAndGet());
+        loop(10).forEach(i -> s.dispatch(null));
+        assertEquals(10, ctr.get());
+        s.disconnect(handlerName);
+        assertEquals(10, ctr.get()); // No change as handler is disconnected
+    }
+
+    @Test
+    void testNamedHandlersFail() {
+        val s = new ConsumingSyncSignal<Void>();
+
+        try {
+            s.connect(null, v -> {});
+            fail("Should have thrown IllegalArgument exception");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Handler can neither be null, nor empty", e.getMessage());
+        }
+
+        try {
+            s.connect("", v -> {});
+            fail("Should have thrown IllegalArgument exception");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Handler can neither be null, nor empty", e.getMessage());
+        }
+
+    }
 
     private void sumTest(ConsumingSyncSignal<Integer> s) {
         final int[] sum = {0};

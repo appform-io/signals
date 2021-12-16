@@ -14,6 +14,7 @@
 
 package io.appform.signals.executors;
 
+import io.appform.signals.Signal;
 import io.appform.signals.combiners.ConsumingNoOpCombiner;
 import io.appform.signals.errorhandlers.LoggingTaskErrorHandler;
 import io.appform.signals.signalhandlers.SignalConsumer;
@@ -40,7 +41,7 @@ class FireForgetHandlerExecutorTest {
         val sum = new AtomicInteger();
         loop(10)
                 .forEach(i -> e.execute(
-                        Collections.singletonList(sum::addAndGet),
+                        Collections.singletonList(new Signal.NamedHandler<>("test", sum::addAndGet)),
                         i,
                         new ConsumingNoOpCombiner(),
                         new LoggingTaskErrorHandler()));

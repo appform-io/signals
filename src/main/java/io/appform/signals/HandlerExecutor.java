@@ -14,14 +14,14 @@
 
 package io.appform.signals;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * An abstraction for all executors for signal handlers
  */
 public interface HandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> {
     R execute(
-            final List<F> handlers,
+            final Collection<Signal.NamedHandler<F>> handlers,
             final T data,
             final ResponseCombiner<R> combiner,
             TaskErrorHandler errorHandlingStrategy);

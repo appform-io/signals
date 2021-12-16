@@ -15,17 +15,20 @@
 package io.appform.signals;
 
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
+
+import static io.appform.signals.utils.SignalUtils.isEmpty;
 
 /**
  * Top level signal abstraction. The actual classes are derived from this class.
  */
+@Slf4j
 public abstract class Signal<T, R, F extends SignalHandlerBase<T, R>> {
+    private static final int DEFAULT_GROUP = 0;
+
     private final Map<Integer, HandlerGroup<T, R, F>> handlers;
     private final HandlerExecutor<T, R, F> executor;
     private final ResponseCombiner<R> combiner;
@@ -49,7 +52,7 @@ public abstract class Signal<T, R, F extends SignalHandlerBase<T, R>> {
      * @return This same signal, for chaining
      */
     public final Signal<T, R, F> connect(final F handler) {
-        return connect(0, handler);
+        return connect(DEFAULT_GROUP, handler);
     }
 
     /**
@@ -63,7 +66,58 @@ public abstract class Signal<T, R, F extends SignalHandlerBase<T, R>> {
      */
     public final synchronized Signal<T, R, F> connect(int groupId, final F handler) {
         handlers.computeIfAbsent(groupId, g -> new HandlerGroup<>(groupId, new ArrayList<>()))
-                .add(handler);
+                .add(UUID.randomUUID().toString(), handler);
+        return this;
+    }
+
+    /**
+     * Connect a handler to this signal at a specific grouping. Grouping can be used to order between multiple sets of
+     * handlers that can be executed in parallel. Execution of groups is ordered by the group id. Multiple calls with
+     * same grouping id will add the handlers to the same group.
+     *
+     * @param handlerName Name to identify the handler
+     * @param handler A signal handler
+     * @return This same signal, for chaining
+     */
+    public final synchronized Signal<T, R, F> connect(final String handlerName, final F handler) {
+        return connect(DEFAULT_GROUP, handlerName, handler);
+    }
+
+    /**
+     * Connect a handler to this signal at a specific grouping. Grouping can be used to order between multiple sets of
+     * handlers that can be executed in parallel. Execution of groups is ordered by the group id. Multiple calls with
+     * same grouping id will add the handlers to the same group.
+     *
+     * @param groupId Group id to be assigned to.
+     * @param handler A signal handler
+     * @return This same signal, for chaining
+     */
+    public final synchronized Signal<T, R, F> connect(int groupId, final String handlerName, final F handler) {
+        checkHandlerName(handlerName);
+        handlers.computeIfAbsent(groupId, g -> new HandlerGroup<>(groupId, new ArrayList<>()))
+                .add(handlerName, handler);
+        return this;
+    }
+
+    /**
+     * Disconnect a named handler from the signal from the default group
+     * @param handlerName Name that identifies a handler
+     * @return This same signal, for chaining
+     */
+    public final synchronized Signal<T,R,F> disconnect(final String handlerName) {
+        return disconnect(DEFAULT_GROUP, handlerName);
+    }
+
+    /**
+     * Disconnect a named handler from the signal.
+     * @param handlerName Name that identifies a handler
+     * @return This same signal, for chaining
+     */
+    public final synchronized Signal<T,R,F> disconnect(int groupId, final String handlerName) {
+        handlers.computeIfPresent(groupId, (k,v) -> {
+            v.remove(handlerName);
+            return v;
+        });
         return this;
     }
 
@@ -103,17 +157,39 @@ public abstract class Signal<T, R, F extends SignalHandlerBase<T, R>> {
         public abstract S build();
     }
 
+    @Value
+    public static class NamedHandler<F> {
+        String name;
+        F handler;
+    }
+
     /**
      * A group of handlers. All handlers in a group are considered to be equivalent and might be executed in parallel
      * depending on the executor implementation provided.
      */
     @Value
-    public static class HandlerGroup<T, R, F extends SignalHandlerBase<T, R>> {
+    private static class HandlerGroup<T, R, F extends SignalHandlerBase<T, R>> {
         int id;
-        List<F> handlers;
+        List<NamedHandler<F>> handlers;
 
-        void add(F function) {
-            handlers.add(function);
+        void add(String handlerName, F function) {
+            checkHandlerName(handlerName);
+            handlers.add(new NamedHandler<>(handlerName, function));
+        }
+
+        void remove(final String handlerName) {
+            checkHandlerName(handlerName);
+            handlers.removeIf(t -> t.getName().equals(handlerName));
+        }
+    }
+
+    /**
+     * Ensures handler name is not null or empty
+     * @param handlerName The name ot identify the handler
+     */
+    private static void checkHandlerName(String handlerName) {
+        if(isEmpty(handlerName)) {
+            throw new IllegalArgumentException("Handler can neither be null, nor empty");
         }
     }
 }

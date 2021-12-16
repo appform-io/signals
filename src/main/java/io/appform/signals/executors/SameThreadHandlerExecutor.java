@@ -14,13 +14,10 @@
 
 package io.appform.signals.executors;
 
-import io.appform.signals.HandlerExecutor;
-import io.appform.signals.ResponseCombiner;
-import io.appform.signals.SignalHandlerBase;
-import io.appform.signals.TaskErrorHandler;
+import io.appform.signals.*;
 import io.appform.signals.utils.SignalUtils;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * An executor that executes handlers in the caller thread
@@ -30,7 +27,7 @@ import java.util.List;
 public class SameThreadHandlerExecutor<T, R, F extends SignalHandlerBase<T, R>> implements HandlerExecutor<T, R, F> {
     @Override
     public R execute(
-            List<F> handlers,
+            Collection<Signal.NamedHandler<F>> handlers,
             T data,
             ResponseCombiner<R> combiner,
             TaskErrorHandler errorHandlingStrategy) {

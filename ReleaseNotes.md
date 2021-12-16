@@ -1,4 +1,7 @@
 # Release Notes
+1.2
+---
+* Support for registering and de-registering named handlers
 
 1.1
 ---
@@ -7,4 +10,4 @@
 
 1.0
 ---
-* First workign version
+* First working version
