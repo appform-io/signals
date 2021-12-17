@@ -83,10 +83,10 @@
         <sonar.projectKey>appform-io_signals</sonar.projectKey>
         <sonar.organization>appform-io</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <slf4j-api.version>1.7.32</slf4j-api.version>
-        <junit.version>5.7.2</junit.version>
-        <awaitility.version>4.0.2</awaitility.version>
+        <junit.version>5.8.2</junit.version>
+        <awaitility.version>4.1.1</awaitility.version>
     </properties>
 
     <dependencies>
@@ -208,7 +208,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
