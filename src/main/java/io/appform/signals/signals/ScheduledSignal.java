@@ -24,6 +24,7 @@ import io.appform.signals.signalhandlers.SignalConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 import java.io.Closeable;
 import java.time.Duration;
@@ -80,7 +81,15 @@ public class ScheduledSignal extends Signal<Date, Void, SignalConsumer<Date>> im
 
     @Override
     public void close() {
-        this.jobFuture.cancel(true);
+        this.jobFuture.cancel(false);
+        this.executorService.shutdown();
+        try {
+            val status =  this.executorService.awaitTermination(5, TimeUnit.SECONDS);
+            log.debug("Executor termination status: {}", status);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         this.executorService.shutdownNow();
     }
 
