@@ -1,4 +1,8 @@
 # Release Notes
+1.3
+---
+* Cleaner shutdown for ScheduledSignal
+
 1.2
 ---
 * Support for registering and de-registering named handlers
