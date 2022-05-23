@@ -1,4 +1,8 @@
 # Release Notes
+1.4
+---
+* Library versions upgraded for some dependencies
+
 1.3
 ---
 * Cleaner shutdown for ScheduledSignal

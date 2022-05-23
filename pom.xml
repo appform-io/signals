@@ -20,7 +20,7 @@
 
     <groupId>io.appform.signals</groupId>
     <artifactId>signals</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
     <name>Signals</name>
     <url>https://github.com/appform-io/signals</url>
     <description>A loosely coupled observer system implementation.</description>
@@ -83,10 +83,10 @@
         <sonar.projectKey>appform-io_signals</sonar.projectKey>
         <sonar.organization>appform-io</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <lombok.version>1.18.22</lombok.version>
-        <slf4j-api.version>1.7.32</slf4j-api.version>
+        <lombok.version>1.18.24</lombok.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
         <junit.version>5.8.2</junit.version>
-        <awaitility.version>4.1.1</awaitility.version>
+        <awaitility.version>4.2.0</awaitility.version>
     </properties>
 
     <dependencyManagement>

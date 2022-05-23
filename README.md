@@ -5,6 +5,7 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=appform-io_signals&metric=security_rating)](https://sonarcloud.io/dashboard?id=appform-io_signals)
+[![javadoc](https://javadoc.io/badge2/io.appform.signals/signals/javadoc.svg)](https://javadoc.io/doc/io.appform.signals/signals)
 
 A loosely coupled observer system implementation inspired by boost::signals/glibmm signals.
 
@@ -35,7 +36,7 @@ Add the following dependency to `pom.xml`:
 <dependency>
   <groupId>io.appform.signals</groupId>
   <artifactId>signals</artifactId>
-  <version>1.3</version>
+  <version>1.4</version>
 </dependency>
 ```
 
